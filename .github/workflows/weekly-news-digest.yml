@@ -1,0 +1,34 @@
+# Weekly MCP News Digest — mcp-news-watch
+#
+# What the weekly refresh should eventually do:
+#   1. Search news sources for Model Context Protocol (MCP) stories from the past 7 days,
+#      filtering for actual reporting rather than evergreen explainers of what MCP is.
+#   2. De-duplicate against stories already filed as "Digest:" issues in this repository.
+#   3. File one new issue per qualifying story, titled "Digest: <short headline>",
+#      with the source, the link and a 2-3 sentence summary in the body.
+#   4. Comment on each new issue explaining why the story matters for the team briefing.
+#   5. Open a "Weekly Briefing <date>" roll-up issue linking every story added that week.
+#   6. Close stale digest issues older than 30 days and log a short status summary.
+#
+# Today this workflow is only a wiring check: it runs on manual trigger
+# (workflow_dispatch) and echoes a confirmation message so we can verify the
+# automation is reachable and wired up before the real digest logic is added.
+# Once the real logic lands, uncomment the schedule below for a weekly run:
+
+# on:
+#   schedule:
+#     - cron: "0 8 * * 1"  # every Monday 08:00 UTC
+
+name: Weekly News Digest
+
+on:
+  workflow_dispatch:
+
+jobs:
+  news-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wiring check
+        run: |
+          echo "Weekly MCP news digest placeholder — workflow is wired up."
+          echo "Triggered: $(date -u)"
