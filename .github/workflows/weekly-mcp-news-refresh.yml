@@ -1,0 +1,48 @@
+# weekly-mcp-news-refresh.yml — mcp-news-watch
+#
+# Manual trigger for the weekly MCP news digest refresh.
+#
+# What the weekly refresh should eventually do:
+#   1. Search for the latest substantive Model Context Protocol (MCP) news
+#      from roughly the past week, using more than one source so the team
+#      gets real reporting rather than evergreen explainers of what MCP is.
+#   2. Filter out evergreen "what MCP is" explainers and keep only stories
+#      describing a specific new development: a vendor announcement,
+#      an adoption signal, a security finding, or a shift in how the
+#      ecosystem is being used.
+#   3. For every kept story, create an issue titled "Digest: <short headline>"
+#      whose body carries the source, the link, and a 2-3 sentence summary
+#      of what the story actually reports.
+#   4. Add a comment on each new issue explaining why that story matters for
+#      the team briefing.
+#   5. Update a consolidated digest (e.g. DIGEST.md or an issues index) so
+#      there is one place to look before the briefing.
+#   6. (Optional) distribute the refreshed digest to the team's newsletter
+#      or meeting invite as a final step.
+#
+# For now this workflow is a wiring check: it runs on manual dispatch
+# (workflow_dispatch) and echoes a confirmation so we can verify the
+# automation is reachable before real digest logic is added.
+
+name: Weekly MCP News Refresh
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  refresh:
+    name: Weekly MCP news refresh
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Wiring check — confirm the workflow is dispatchable
+        run: |
+          echo "Weekly MCP news refresh wiring check passed."
+          echo "Run date: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Expected next steps: search recent MCP news, create 'Digest:' issues, add relevance comments, update digest index."
