@@ -1,30 +1,52 @@
-# Weekly MCP news refresh workflow
-#
-# Eventually this workflow should:
-#   1. Fetch the latest MCP-related news for the past ~7 days across sources such as
-#      the modelcontextprotocol spec repo, the official SDKs (typescript-sdk,
-#      python-sdk), microsoft/mcp, the MCP registry, and industry outlets.
-#   2. Deduplicate against stories already covered in issues #12, #13, #14 (and future
-#      Digest issues) to avoid re-reporting what the team already has.
-#   3. Append a fresh "Weekly Digest" section to README.md and open a new Issue
-#      titled "Digest: <short headline>" for each newly found story, carrying the
-#      source, link, and a 2-3 sentence summary.
-#   4. Post a comment on each new Digest issue explaining why that story matters for
-#      the team briefing, and update existing digest issues with any corrections.
-#   5. Optionally run a light lint/link-check step over .github/workflows/*.yml so
-#      manual dispatching stays safe.
-#
-# v1 is a manual placeholder: triggers only on workflow_dispatch, runs on
-# ubuntu-latest, and prints a notice that the full refresh logic above is a TODO
-# to be implemented in later commits.
-
+# Weekly MCP News Refresh
+# Manual trigger (workflow_dispatch) plus an optional cron schedule.
+# This workflow is the hook for the weekly briefing refresh.
 name: Weekly MCP News Refresh
 
-on: workflow_dispatch
+# Trigger: manual dispatch for the weekly refresh,
+# and an optional cron schedule (Mondays 09:00 UTC) so the digest
+# can be regenerated automatically each week.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * 1"
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - name: Say hello
-        run: echo "Weekly MCP news refresh placeholder: implement fetch/dedupe/Digest-issue steps per the comment block above."
+      # Comment block — what the weekly refresh should eventually do:
+      #
+      # 1. Fetch the latest MCP-related news stories from sources such as
+      #    GitHub issues/PRs in modelcontextprotocol, microsoft/mcp,
+      #    modelcontextprotocol/registry, and reputable tech新闻 outlets.
+      # 2. Deduplicate against existing issues in this repository.
+      # 3. Create or update a "Digest: <short headline>" issue per new story,
+      #    carrying the source, the link, and a two-to-three sentence summary.
+      # 4. Post a comment on each new issue explaining why the story matters
+      #    for the team briefing.
+      # 5. Update the README digest table with the newest stories and their
+      #    links, so the repo stays the single source of truth for the digest.
+      # 6. Optionally open a pull request summarizing the week's changes.
+      - name: Comment block — weekly refresh plan (informational)
+        run: |
+          echo "WEEKLY REFRESH PLAN"
+          echo "1. Fetch latest MCP news from modelcontextprotocol, microsoft/mcp,"
+          echo "   modelcontextprotocol/registry, and reputable tech news."
+          echo "2. Deduplicate against existing issues in this repository."
+          echo "3. Create/update a Digest issue per new story (source, link, summary)."
+          echo "4. Comment on each new issue explaining why it matters for the briefing."
+          echo "5. Update the README digest table with newest stories and links."
+          echo "6. Optionally open a PR summarizing the week's changes."
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Placeholder step — wire up the real refresh steps here:
+      # e.g. fetch news, dedupe, create/update Digest issues,
+      # post explanatory comments, and update README.md.
+      - name: Placeholder — replace with real refresh logic
+        run: |
+          echo "Weekly refresh placeholder: replace this step with the actual"
+          echo "news-fetching, dedup, issue-creation, comment-posting, and"
+          echo "README-update logic for the MCP news digest."
