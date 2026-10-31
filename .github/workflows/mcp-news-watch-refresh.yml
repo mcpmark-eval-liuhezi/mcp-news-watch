@@ -1,0 +1,47 @@
+# MCP News Watch - Weekly Refresh
+# Manually triggerable workflow for refreshing the team's MCP ecosystem briefing.
+#
+# Comment block - what the weekly refresh should eventually do:
+#
+#   Once fully wired, the weekly refresh should:
+#     1. Pull the latest MCP-related coverage from RSS/aggregators
+#        (TechCrunch, The Verge, Ars Technica, Anthropic newsroom,
+#        modelcontextprotocol.io, and major lab blogs).
+#     2. Filter to stories published within the last 7 days.
+#     3. Classify each candidate by theme: adoption (vendor support,
+#        integrations, ecosystem growth), specification (spec revisions,
+#        SDK/tooling changes), security (vulnerabilities, advisories),
+#        and market/competitor moves (rival protocols, standards battles).
+#     4. Create one new "Digest: <short headline>" issue per accepted story,
+#        carrying the source, the link, and a fresh 2-3 sentence summary.
+#     5. Add a comment on each new issue explaining why that story matters
+#        for the upcoming briefing.
+#     6. Update a monthly trending-summary issue so the briefing has a
+#        persistent trend table instead of only individual digests.
+#     7. Optionally flatten the top stories into a briefing.md for the
+#        weekly议题 distribution.
+#
+# This workflow currently runs a dry-run echo step. It is manually
+# triggerable via workflow_dispatch and wires the refresh mechanically
+# until the automation steps above are implemented.
+
+name: MCP News Watch - Weekly Refresh
+on:
+  workflow_dispatch:
+    inputs:
+      cycle:
+        description: Briefing cycle identifier (e.g. 2026-W29)
+        required: false
+        default: weekly
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment block - what the weekly refresh should eventually do
+        run: |
+          echo "Weekly refresh should eventually: fetch last 7 days of MCP coverage from TechCrunch/The Verge/Anthropic/news; classify stories by theme (adoption, spec, security, ecosystem); create one Digest issue per accepted story with source, link, summary; comment on each issue on why it matters for the briefing; update a trending summary issue; and publish a finalized briefing.md for the weekly cycle."
+      - name: Refresh dry-run
+        run: |
+          echo "MCP news watch dry-run complete for cycle ${{ inputs.cycle }}"
+          echo "Next iteration: replace echo steps with RSS fetch + issue creation automation."
