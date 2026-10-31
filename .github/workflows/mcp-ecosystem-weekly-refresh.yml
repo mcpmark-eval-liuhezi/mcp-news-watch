@@ -1,0 +1,40 @@
+# MCP Ecosystem Weekly Refresh
+#
+# What this workflow should eventually do (weekly briefing refresh):
+#   1. Pull the latest MCP-related news from trusted sources (Anthropic blog,
+#      modelcontextprotocol/servers releases, registry governance posts,
+#      vendor MCP announcements, and security advisory feeds).
+#   2. Deduplicate stories, write a 2-3 sentence summary per story, and link
+#      to the original source.
+#   3. Create or update GitHub issues in this repository titled
+#      "Digest: <short headline>" with source, link, and summary in the body.
+#   4. Post a comment on each new issue explaining why the story matters for
+#      the team briefing.
+#   5. Commit an updated README digest and a workflow run log artifact.
+#   6. Optionally open/update a summary issue with the week's top story.
+#
+# Manual trigger only via workflow_dispatch so only deliberate refreshes land
+# in main. Ad-hoc runs are disabled by default; enable them explicitly if
+# testingnAoc require a area.
+
+name: MCP Weekly Refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Force refresh even if no new stories are found
+        required: false
+        type: boolean
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Stub weekly refresh step
+        run: |
+          echo "Weekly MCP news refresh placeholder"
+          echo "TODO: add news-fetching, issue creation, and comment steps."
