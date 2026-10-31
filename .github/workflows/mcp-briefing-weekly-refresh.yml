@@ -1,0 +1,59 @@
+# MCP Briefing Weekly Refresh
+#
+# _COMMENT BLOCK: This workflow is the manual trigger for the weekly MCP ecosystem
+# news refresh that feeds this repository's briefing digest.
+#
+# WHAT THE WEEKLY REFRESH SHOULD EVENTUALLY DO:
+#   1. Run a fresh news search across MCP-relevant sources ( spec site, Anthropic
+#      newsroom, Google Developers Blog, GitHub org:modelcontextprotocol activity,
+#      major vendor blogs) and collect any stories published in the last 7 days.
+#   2. Deduplicate against already-indexed stories and rank candidates by briefing
+#      relevance (ecosystem momentum, protocol/spec direction, vendor movements,
+#      security/operational concerns, competitor standards).
+#   3. For each new story, auto-create or update an issue titled "Digest: <headline>"
+#      carrying source, link, and a 2-3 sentence summary, then post a comment on
+#      each issue explaining why that story matters for the weekly briefing.
+#   4. Update the repository README digest section with the latest curated set of
+#      stories so the briefing always points at a single脉络 source of truth.
+#   5. Optionally open a consolidated PR summarizing the week's digest for review.
+#
+# CURRENT MANUAL FORM: until the automated steps above are wired up, this workflow
+# develops the recipe and placeholder steps; a human runs workflow_dispatch weekly
+# to confirm the pipeline is intact and to kick off the manual refresh procedure.
+
+name: MCP Briefing Weekly Refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      week_of:
+        description: ISO week or date label for this refresh (e.g. 2026-W43)
+        required: false
+        default: ""
+      note:
+        description: Optional note from the briefing owner
+        required: false
+        default: ""
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Print refresh metadata
+        run: |
+          echo "MCP briefing weekly refresh"
+          echo "Repository: mcpmark-eval-liuhezi/mcp-news-watch"
+          echo "Trigger: manual (workflow_dispatch)"
+          echo "Week label:${{ inputs.week_of || 'not provided' }}"
+          echo "Note:${{ inputs.note || 'none' }}"
+
+      # Subsequent steps (news search, issue creation, README update, PR open)
+      # are placeholder steps to be replaced with the automated refresh logic
+      # described in the comment block above.
+      - name: Placeholder — pending automated refresh steps
+        run: |
+          echo "Weekly refresh pipeline: manual dispatch confirmed;执行 placeholder until automated steps are wired."
