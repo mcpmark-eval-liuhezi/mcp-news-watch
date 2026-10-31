@@ -20,14 +20,7 @@
 
 name: Weekly MCP News Refresh
 
-on:
-  workflow_dispatch:
-    inputs:
-      days Back:
-        description: "Lookback window in days (default 7)"
-        required: false
-        default: "7"
-        type: number
+on: workflow_dispatch
 
 jobs:
   refresh:
