@@ -1,0 +1,61 @@
+# mcp-news-digest-weekly-refresh.yml
+#
+# MCP News Digest - Weekly Refresh Workflow
+#
+# WHAT THIS WORKFLOW SHOULD EVENTUALLY DO (weekly refresh):
+#
+#  1. FETCH: Pull the latest MCP-related news stories from the past 7 days
+#     (news APIs, RSS feeds, or search endpoints) covering the Model Context
+#     Protocol ecosystem (server launches, security disclosures, governance,
+#     adoption milestones, spec revisions).
+#
+#  2. DEDUPLICATE: Compare fetched stories against existing issues in this
+#     repository titled "Digest: <short headline>" to avoid re-reporting
+#     stories already covered.
+#
+#  3. CREATE: For each new story, create an issue titled
+#     "Digest: <short headline>" whose body carries the source, the link, and
+#     a 2-3 sentence summary, then add a comment on each issue explaining
+#     why that story matters for the weekly team briefing.
+#
+#  4. DIGEST: Update a WEEKY.md file in the repository root with the latest
+#     stories, their sources/links, and a one-line significance verdict each.
+#
+#  5. HIGHLIGHT: Flag the single most significant story of the week with a
+#     "ermost" marker comment on the digest issue so the briefing lead can
+#     open straight to it.
+#
+# CURRENT VERSION: This is a wired-up manual trigger (workflow_dispatch) that
+# prints the refresh plan and succeeds, so the CI integration is verifiable.
+# The fetch/dedupe/issue-creation steps are planned for the next iteration.
+
+name: MCP News Digest Weekly Refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      daysBack:
+        description: "Lookback window in days (default 7)"
+        required: false
+        default: "7"
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Print weekly refresh plan
+        run: |
+          echo "MCP News Digest weekly refresh triggered at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Lookback window: ${{ inputs.daysBack }} days"
+          echo ""
+          echo "Planned weekly-refresh behaviour:"
+          echo "  1. Fetch MCP news stories from the past ${{ inputs.daysBack }} days."
+          echo "  2. Deduplicate against existing 'Digest: <headline>' issues."
+          echo "  3. Create new Digest issues with source, link and summary."
+          echo "  4. Comment on each Digest issue on significance for the briefing."
+          echo "  5. Update WEEKY.md with the latest digest and highlight the top story."
+          echo ""
+          echo "This placeholder run confirms the manual trigger and job wiring."
