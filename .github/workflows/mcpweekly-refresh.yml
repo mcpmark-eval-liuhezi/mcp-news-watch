@@ -1,0 +1,48 @@
+# MCP Weekly News Refresh
+#
+# MCP ecosystem news digest refresh workflow for the mcp-news-watch repository.
+#
+# WHAT THE WEEKLY REFRESH SHOULD EVENTUALLY DO:
+#   1. Fetch the latest MCP-related news from a curated set of sources
+#      (RSS feeds, news APIs, or web search) covering the past 7 days.
+#   2. Deduplicate new stories against existing "Digest: ..." issues and
+#      the DIGEST.md file so the same story is not re-filed repeatedly.
+#   3. Append each new story as a new issue titled "Digest: <short headline>"
+#      with source, link and summary in the body.
+#   4. Post a comment on each new issue explaining why the story matters
+#      for the weekly team briefing.
+#   5. Update or create a consolidated DIGEST.md markdown file listing all
+#      current digest entries with links and one-line summaries.
+#   6. (Future) Open a pull request with the refreshed digest for review,
+#      so the briefing can be refreshed weekly without manual pushing.
+#
+# This workflow is triggered manually via the GitHub Actions UI
+# (workflow_dispatch) so the briefing can be refreshed on a weekly cadence.
+
+name: MCP Weekly News Refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      lookback_days:
+        description: "Number of days of news to include in the refresh"
+        required: false
+        default: "7"
+        type: string
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Refresh MCP news digest
+        run: |
+          echo "Weekly MCP news refresh triggered (lookback=${{ inputs.lookback_days }} days)"
+          echo "Expected eventual behavior: fetch recent MCP news, dedupe against existing"
+          echo "Digest issues, create/update issues and comments, and update DIGEST.md."
+
+      - name: Report job status
+        run: |
+          echo "Refresh complete. Review Issues and Pull Requests for new Digest entries."
