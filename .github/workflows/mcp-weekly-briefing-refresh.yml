@@ -1,0 +1,62 @@
+name: MCP Weekly Briefing Refresh
+
+# ---------------------------------------------------------------------------
+# MCP Weekly Briefing Refresh
+#
+# What this workflow should eventually do (weekly refresh):
+#
+#   1. Trigger: manual dispatch via workflow_dispatch so the briefing can be
+#      refreshed on a weekly cadence (cron or GitHub Actions schedule).
+#   2. News capture: query a news / search API for Model Context Protocol
+#      (MCP) stories published within the last N days (default 7).
+#   3. Deduplicate: compare newly found stories against existing GitHub
+#      issues titled "Digest: <short headline>" to avoid duplicate digests.
+#   4. Issue creation: for each new story, create an issue with the title
+#      "Digest: <short headline>" whose body carries the source, the link,
+#      and a two-to-three sentence summary of what the story reports.
+#   5. Commenting: post a comment on each new digest issue explaining why
+#      that story matters for the weekly team briefing.
+#   6. Ecosystem state: update a recurring "state of the MCP ecosystem"
+#      issue with the newest findings and link the new digest issues as
+#      sub-issues so the briefing track stays consolidated.
+#   7. Reporting: print a summary of actions taken so the run log doubles
+#      as an appendix to the weekly briefing.
+#
+# Current version: performs steps 1-2 (checkout, environment setup) and
+# prints the refresh plan above. Future versions should replace the
+# placeholder step with actual news-query and GitHub API calls to carry out
+# steps 3-7 automatically.
+# ---------------------------------------------------------------------------
+
+on:
+  workflow_dispatch:
+    inputs:
+      lookback_days:
+        description: 'Lookback window in days for news stories'
+        required: false
+        default: '7'
+        type: string
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          echo "MCP Weekly Briefing Refresh dispatched"
+          echo "Lookback window: ${{ inputs.lookback_days }} days"
+          echo "Repository: mcpmark-eval-liuhezi/mcp-news-watch"
+
+      - name: Print refresh plan
+        run: |
+          echo "=== MCP Weekly Refresh Plan ==="
+          echo "1. Query news sources for MCP stories in the last ${{ inputs.lookback_days }} days"
+          echo "2. Deduplicate against existing 'Digest: <headline>' issues"
+          echo "3. Create new digest issues with source, link and summary"
+          echo "4. Post comments explaining why each story matters"
+          echo "5. Update ecosystem state issue and link as sub-issues"
+          echo "6. Print summary for the briefing appendix"
+          echo "=== End of plan ==="
