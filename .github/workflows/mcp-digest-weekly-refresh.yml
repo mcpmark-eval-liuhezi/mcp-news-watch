@@ -1,0 +1,44 @@
+# MCP News Watch — Weekly Briefing Refresh
+#
+# WHAT THE WEEKLY REFRESH SHOULD EVENTUALLY DO:
+#   1. Fetch the latest MCP-related coverage from a configured source
+#      (RSS feed, news API, or curated keyword search).
+#   2. Deduplicate newly found stories against items already captured
+#      in the repository's digest issues.
+#   3. Append or update digest issues with new findings, keeping a
+#      chronological record for the briefing.
+#   4. Optionally generate a consolidated Markdown digest document and
+#      open a pull request against main.
+#   5. Post comments on issues where new material changes the briefing.
+#
+# For now this job only checks out the repository and prints a marker
+# so that the Actions pipeline is confirmed to be wired up.
+name: MCP News Watch Weekly Refresh
+
+on:
+  workflow_dispatch:
+    inputs:
+      week_ending:
+        description: "Week ending date for this refresh (ISO 8601)"
+        required: false
+        default: ""
+      notes:
+        description: "Free-text notes for this weekly refresh"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Print refresh marker
+        run: |
+          echo "MCP News Watch weekly refresh executed on ${{ github.run_id }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Week ending: ${{ inputs.week_ending }}"
